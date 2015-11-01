@@ -12,6 +12,9 @@ public class BoardManager : MonoBehaviour {
 	public GameObject wallTile;
 	public GameObject outerWallTile;
 	public GameObject scoutTile;
+	public GameObject guardTile;
+
+	private static string playerTurn = "Scout";
 
 	private Transform boardContainer;
 	private List <Vector3> gridPositions = new List<Vector3>();
@@ -54,8 +57,8 @@ public class BoardManager : MonoBehaviour {
 
 	void LayoutWalls() 
 	{
-		int row = 6;
-		for (int col = 1; col < columns -3; col++)
+		int row = 5;
+		for (int col = 0; col < columns -2; col++)
 		{
 			GameObject instance = 
 				Instantiate (wallTile, gridPositions[(columns*(row-1)+col)], Quaternion.identity) as GameObject;
@@ -66,7 +69,7 @@ public class BoardManager : MonoBehaviour {
 	void LayoutScouts()
 	{
 		int row = 2;
-		for (int col = 2; col < columns -4; col++)
+		for (int col = 2; col < columns - 4; col++)
 		{
 			//GameObject instance = 
 			GameObject instance = Instantiate (scoutTile, gridPositions[(columns*(row-1)+col)], Quaternion.identity) as GameObject;
@@ -74,6 +77,18 @@ public class BoardManager : MonoBehaviour {
 			instance.tag = "Attacker_" + row + col;
 		}
 	}
+	void LayoutGuards()
+	{
+		int row = 7;
+		for (int col = 2; col < 5; col++)
+		{
+			//Vector3 pos = new Vector3(col,row, 0f);
+			GameObject instance = Instantiate (guardTile, gridPositions[(columns*(row-1)+col)], Quaternion.identity) as GameObject;
+			instance.transform.SetParent (boardContainer);
+			instance.tag = "Defender_" + row + col;
+		}
+	}
+
 	public void SetupScene()
 	{
 		BoardSetup ();
@@ -84,6 +99,22 @@ public class BoardManager : MonoBehaviour {
 
 		LayoutScouts ();
 
-
+		LayoutGuards ();
 	}
+
+	public static string PlayTurn() 
+	{
+		return playerTurn;
+	}
+	public static void SwitchPlayer() 
+	{
+		if (playerTurn == "Scout") 
+		{
+			playerTurn = "Guard";
+		} 
+		else {
+			playerTurn = "Scout";
+		}
+	}
+
 }

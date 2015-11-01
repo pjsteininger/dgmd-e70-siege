@@ -3,15 +3,15 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
-	public static GameManager instance = null;//singleton behavior for this game manager
+	public static GameManager siegeGame = null;//singleton behavior for this game manager
 	private BoardManager boardScript;
 
 	// Use this for initialization
 	void Awake () 
 	{
-		if (instance == null)
-			instance = this;
-		else if (instance != this)
+		if (siegeGame == null)
+			siegeGame = this;
+		else if (siegeGame != this)
 			Destroy (gameObject);
 
 		DontDestroyOnLoad (gameObject);
